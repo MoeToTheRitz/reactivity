@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue.js Shop</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    #app {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+    }
+    h2 {
+      margin-top: 30px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Vue.js Shop</h1>
+    <div v-for="product in products" :key="product.id">
+      <h2>{{ product.name }}</h2>
+      <p>Price: {{ product.price }}</p>
+      <button @click="addToCart(product)">Add to Cart</button>
+    </div>
+    <h2>Cart:</h2>
+    <ul>
+      <li v-for="item in cart" :key="item.id">
+        {{ item.name }} - {{ item.quantity }}
+      </li>
+    </ul>
+    <h2>Total: {{ calculateTotal() }}</h2>
+    <button @click="clearCart">Clear Cart</button>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        products: [
+          { id: 1, name: 'Product 1', price: 9.99 },
+          { id: 2, name: 'Product 2', price: 19.99 },
+          { id: 3, name: 'Product 3', price: 14.99 }
+        ],
+        cart: []
+      },
+      methods: {
+        addToCart(product) {
+          const cartItem = this.cart.find(item => item.id === product.id);
+          if (cartItem) {
+            cartItem.quantity++;
+          } else {
+            this.cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+          }
+        },
+        calculateTotal() {
+          return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+        },
+        clearCart() {
+          this.cart = [];
+        }
+      }
+    });
+  </script>
+</body>
+</html>

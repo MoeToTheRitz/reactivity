@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vanilla JS Shop</title>
+</head>
+<body>
+  <div id="app">
+    <h1>Vanilla JS Shop</h1>
+    <div id="products">
+      <div>
+        <h2>Product 1</h2>
+        <p>Price: 9.99</p>
+        <button onclick="addToCart(1)">Add to Cart</button>
+      </div>
+      <div>
+        <h2>Product 2</h2>
+        <p>Price: 19.99</p>
+        <button onclick="addToCart(2)">Add to Cart</button>
+      </div>
+      <div>
+        <h2>Product 3</h2>
+        <p>Price: 14.99</p>
+        <button onclick="addToCart(3)">Add to Cart</button>
+      </div>
+    </div>
+    <h2>Cart:</h2>
+    <ul id="cart">
+    </ul>
+    <h2>Total: <span id="total">0.00</span></h2>
+    <button onclick="clearCart()">Clear Cart</button>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, name: 'Product 1', price: 9.99 },
+      { id: 2, name: 'Product 2', price: 19.99 },
+      { id: 3, name: 'Product 3', price: 14.99 }
+    ];
+    let cart = [];
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const cartItem = cart.find(item => item.id === product.id);
+      if (cartItem) {
+        cartItem.quantity++;
+      } else {
+        cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById('cart');
+      cartList.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.innerText = `${item.name} - ${item.quantity}`;
+        cartList.appendChild(listItem);
+        total += item.price * item.quantity;
+      });
+      const totalElement = document.getElementById('total');
+      totalElement.innerText = total.toFixed(2);
+    }
+
+    function clearCart() {
+      cart = [];
+      renderCart();
+    }
+  </script>
+</body>
+</html>
