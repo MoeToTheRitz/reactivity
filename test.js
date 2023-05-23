@@ -15,14 +15,23 @@ function replay() {
   storage.forEach(run => run());
 }
 
-record();
 target();
+record();
+
+
 
 console.log(total);
 
 // Preis und Menge aktualisieren
 
 price = 10;
+
+quantity = 3;
+
+replay();
+console.log(total);
+
+price = 40;
 
 quantity = 3;
 
